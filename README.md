@@ -1,5 +1,5 @@
 # An example of a Philips Hue and Google Calendar integration
-My Work-from-Home "office" is in a dark corner of my house, I wanted a way to keep track of time and also look well lit in video calls. My solution was to get the [Philips Hue Light Bar](https://www2.meethue.com/en-us/p/hue-white-and-color-ambiance-play-light-bar-double-pack/7820230U7) and write a program to control the lights based off of events in my calendar. Check out a [video demo].
+My Work-from-Home "office" is in a dark corner of my house, I wanted a way to keep track of time and also look well lit in video calls. My solution was to get the [Philips Hue Light Bar](https://www2.meethue.com/en-us/p/hue-white-and-color-ambiance-play-light-bar-double-pack/7820230U7) and write a program to control the lights based off of events in my calendar. Check out a [video of the experience](https://youtu.be/GQiMuCmbtgM).
 
 ## Requirements
 Hue Python API, I'm using [Qhue](https://github.com/quentinsf/qhue) to make interactions with the Bridge easier (see that project for installation instructions).
