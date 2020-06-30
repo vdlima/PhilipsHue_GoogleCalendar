@@ -70,10 +70,16 @@ def SetGVCColor(lights):
 def GetCalendarEvents(service):
   now = datetime.datetime.utcnow().isoformat() + 'Z' # 'Z' indicates UTC time
   if LOGGING:
-    print('Getting 10 events')
-  events_result = service.events().list(calendarId='primary', timeMin=now,
-                                        maxResults=10, singleEvents=True,
-                                        orderBy='startTime').execute()
+    print('Getting events...')
+  try:
+    events_result = service.events().list(calendarId='primary', timeMin=now,
+                                          maxResults=3, singleEvents=True,
+                                          orderBy='startTime').execute()
+  except ConnectionResetError as err:
+    print('Caught ConnectionResetError!')
+    time.sleep(60)
+    GetCalendarEvents(service)
+
   events = events_result.get('items', [])
   if not events:
     if LOGGING:
@@ -120,7 +126,7 @@ def EventNotify(event_start_date_obj, event_end_date_obj):
     print ('event_start_date_obj: {}'.format(event_start_date_obj))
     print ('event_end_date_obj: {}'.format(event_end_date_obj))
     print ('starting_soon: {}'.format(starting_soon))
-  print('in_progress: {}'.format(in_progress))
+    print('in_progress: {}'.format(in_progress))
   if (starting_soon or in_progress):
     if LOGGING:
       print('GVC')
@@ -158,9 +164,12 @@ def main():
   bridge = Bridge(BRIDGE_IP, BRIDGE_USERNAME)
   lights = bridge.lights
   
-  TurnOnLights(lights)
+  now_time = datetime.datetime.now().time()
   
-  while datetime.datetime.now().time() < WORK_DAY_END:
+  if now_time < WORK_DAY_END:
+    TurnOnLights(lights)
+  
+  while now_time < WORK_DAY_END:
     
     # Identify if there is a GVC coming up or not
     event_type = GetCalendarEvents(service)
