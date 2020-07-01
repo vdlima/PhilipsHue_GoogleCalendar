@@ -109,7 +109,7 @@ def GetCalendarEvents(service):
         if LOGGING:
           print('Self-organized event: {}'.format(event['summary']))
         return EventNotify(event_start_date_obj, event_end_date_obj)
-  return
+  return 'Ambient'
     
 
 def EventNotify(event_start_date_obj, event_end_date_obj):
