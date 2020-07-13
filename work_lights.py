@@ -170,6 +170,7 @@ def main():
     TurnOnLights(lights)
   
   while now_time < WORK_DAY_END:
+    now_time = datetime.datetime.now().time()
     
     # Identify if there is a GVC coming up or not
     event_type = GetCalendarEvents(service)
