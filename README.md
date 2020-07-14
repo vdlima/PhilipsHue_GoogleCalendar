@@ -15,7 +15,7 @@ pip3 install --upgrade google-api-python-client google-auth-httplib2 google-auth
 [Hue Lights API](https://developers.meethue.com/develop/hue-api/lights-api/) (you will to sign up for a developer account to access) to understand what's available.
 
 ## To get it working
-Go through the [Get Started](https://developers.meethue.com/develop/get-started-2/) page on the Hue Developers site to use the CLIP API Debugger to register a new username. Replace the BRIDGE_IP and BRIDGE_USERNAME variables in the script, update the LOGGING variable as necessary and execute with:
+Go through the [Get Started](https://developers.meethue.com/develop/get-started-2/) page on the Hue Developers site to use the CLIP API Debugger to register a new username. Replace the BRIDGE_IP and BRIDGE_USERNAME variables in the script, the LIGHTS array to match your lights, and update the LOGGING variable as necessary and execute with:
 ```
 python3 work_lights.py
 ```
