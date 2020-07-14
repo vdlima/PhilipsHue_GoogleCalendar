@@ -7,6 +7,11 @@ Hue Python API, I'm using [Qhue](https://github.com/quentinsf/qhue) to make inte
 pip3 install qhue
 ```
 
+To read configuration files, we're using [pyyaml](https://pyyaml.org/wiki/PyYAML). To install under Python 3, run:
+```
+pip3 install pyyaml
+```
+
 Enable the [Google Calendar API](https://developers.google.com/calendar/quickstart/python) for your Google account and install the client library. Reference the [Python Calendar API](https://developers.google.com/resources/api-libraries/documentation/calendar/v3/python/latest/index.html) as needed. To install under Python3 you may have to use pip3:
 ```
 pip3 install --upgrade google-api-python-client google-auth-httplib2 google-auth-oauthlib
