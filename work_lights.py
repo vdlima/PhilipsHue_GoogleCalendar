@@ -21,6 +21,7 @@ LOGGING = True
 # Philips Hue Bridge details
 BRIDGE_IP = '1.1.1.1'  # Update with your Bridge's IP address
 BRIDGE_USERNAME = 'username'  # Update with your Bridge's username
+LIGHTS = [1, 2] # Update with your light's IDs
 
 # How often to update the lights
 LIGHT_CHANGE_INTERVAL_MIN = 4
@@ -35,35 +36,31 @@ SCOPES = ['https://www.googleapis.com/auth/calendar.readonly']
 
 def TurnOnLights(lights):
   try:
-    lights(1, 'state')
-    lights(2, 'state')
+    [lights(light, 'state') for light in LIGHTS]
   except QhueException as err:
     if LOGGING:
       print('Turning lights on')
-    lights(1, 'state', on=True)
-    lights(2, 'state', on=True)
+    [lights(light, 'state', on=True) for light in LIGHTS]
 
 
 def TurnOffLights(lights):
-  lights(1, 'state', on=False)
-  lights(2, 'state', on=False)
+  [lights(light, 'state', on=False) for light in LIGHTS]
 
 
 def SetAmbientColor(lights):
   x = round(random.random(), 3)
   y = round(random.random(), 3)
 
-  lights(1, 'state', xy=[x, y], bri=254, transitiontime=100)
-  lights(2, 'state', xy=[x, y], bri=254, transitiontime=100)
-
+  [lights(light, 'state', xy=[x, y], bri=254, transitiontime=100)
+          for light in LIGHTS]
   if LOGGING:
     print('x={}, y={} @ {}'.format(x, y, datetime.datetime.now()))
   return
 
 
 def SetGVCColor(lights):
-  lights(1, 'state', xy=[0.300, 0.300], bri=254)
-  lights(2, 'state', xy=[0.300, 0.300], bri=254)
+  [lights(light, 'state', xy=[0.300, 0.300], bri=254)
+          for light in LIGHTS]
   return
 
 
