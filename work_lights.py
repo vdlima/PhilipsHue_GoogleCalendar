@@ -32,6 +32,9 @@ LIGHT_CHANGE_INTERVAL_SEC = LIGHT_CHANGE_INTERVAL_MIN * 60
 # Should be larger than LIGHT_CHANGE_INTERVAL_MIN
 CAL_EVENT_CHECK_INTERVAL_MIN = 5
 
+# Should solo meetings be ignored.
+CAL_IGNORE_SOLO_MEETINGS = False
+
 with open('config.yaml') as config_file:
     config = yaml.load(config_file, Loader=yaml.FullLoader)
     if 'BRIDGE_IP' in config:
@@ -109,7 +112,7 @@ def GetCalendarEvents(service):
             return EventNotify(event_start_date_obj, event_end_date_obj)
       
       # If I'm the creator of the event and I've enabled it to remind me
-      if event['creator'].get('self'):
+      if not CAL_IGNORE_SOLO_MEETINGS and event['creator'].get('self'):
         if LOGGING:
           print('Self-organized event: {}'.format(event['summary']))
         return EventNotify(event_start_date_obj, event_end_date_obj)
