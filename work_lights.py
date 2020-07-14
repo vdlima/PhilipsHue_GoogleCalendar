@@ -174,7 +174,6 @@ def main():
     TurnOnLights(lights)
   
   while now_time < WORK_DAY_END:
-    now_time = datetime.datetime.now().time()
     
     # Identify if there is a GVC coming up or not
     event_type = GetCalendarEvents(service)
@@ -188,6 +187,7 @@ def main():
     if LOGGING:
       print('Sleeping for {} seconds \n'.format(LIGHT_CHANGE_INTERVAL_SEC))
     time.sleep(LIGHT_CHANGE_INTERVAL_SEC)
+    now_time = datetime.datetime.now().time()
 
   print('You are done working, now go play!')
   TurnOffLights(lights)
