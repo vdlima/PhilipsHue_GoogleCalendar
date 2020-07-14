@@ -9,6 +9,7 @@ from qhue import QhueException
 import datetime
 import os.path
 import pickle
+import yaml
 import random
 import time
 
@@ -31,8 +32,14 @@ LIGHT_CHANGE_INTERVAL_SEC = LIGHT_CHANGE_INTERVAL_MIN * 60
 # Should be larger than LIGHT_CHANGE_INTERVAL_MIN
 CAL_EVENT_CHECK_INTERVAL_MIN = 5
 
-SCOPES = ['https://www.googleapis.com/auth/calendar.readonly']
+with open('config.yaml') as config_file:
+    config = yaml.load(config_file, Loader=yaml.FullLoader)
+    if 'BRIDGE_IP' in config:
+        BRIDGE_IP = config['BRIDGE_IP']
+    if 'BRIDGE_USERNAME' in config:
+        BRIDGE_USERNAME = config['BRIDGE_USERNAME']
 
+SCOPES = ['https://www.googleapis.com/auth/calendar.readonly']
 
 def TurnOnLights(lights):
   try:
