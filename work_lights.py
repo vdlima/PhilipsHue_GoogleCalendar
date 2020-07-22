@@ -83,6 +83,7 @@ def GetCalendarEvents(service):
     print('Caught ConnectionResetError!')
     time.sleep(60)
     GetCalendarEvents(service)
+    return
 
   events = events_result.get('items', [])
   if not events:
