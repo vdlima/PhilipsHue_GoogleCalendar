@@ -42,47 +42,49 @@ with open('config.yaml') as config_file:
 
 SCOPES = ['https://www.googleapis.com/auth/calendar.readonly']
 
-def TurnOnLights(lights):
+def TurnOnLights(hueLights):
   try:
-    [lights(light, 'state') for light in LIGHTS]
+    [hueLights(light, 'state') for light in LIGHTS]
   except QhueException as err:
     if LOGGING:
       print('Turning lights on')
-    [lights(light, 'state', on=True) for light in LIGHTS]
+    [hueLights(light, 'state', on=True) for light in LIGHTS]
 
 
-def TurnOffLights(lights):
-  [lights(light, 'state', on=False) for light in LIGHTS]
+def TurnOffLights(hueLights):
+  [hueLights(light, 'state', on=False) for light in LIGHTS]
 
 
-def SetAmbientColor(lights):
+def SetAmbientColor(hueLights):
   x = round(random.random(), 3)
   y = round(random.random(), 3)
 
-  [lights(light, 'state', xy=[x, y], bri=254, transitiontime=100)
+  [hueLights(light, 'state', xy=[x, y], bri=254, transitiontime=100)
           for light in LIGHTS]
   if LOGGING:
     print('x={}, y={} @ {}'.format(x, y, datetime.datetime.now()))
   return
 
+def SetAmbientMultiColor(hueLights):
+ for light in LIGHTS:
+              x = round(random.random(), 3)
+              y = round(random.random(), 3)
+              hueLights(light, 'state', xy=[x, y], bri=254,
+                         transitiontime=100)
 
-def SetGVCColor(lights):
-  [lights(light, 'state', xy=[0.300, 0.300], bri=254)
+def SetGVCColor(hueLights):
+  [hueLights(light, 'state', xy=[0.300, 0.300], bri=254)
           for light in LIGHTS]
   return
 
-def SetLightMode(philLights, mode):
-    if mode == 'Ambient':
-        if MULTICOLOR:
-            for light in LIGHTS:
-              x = round(random.random(), 3)
-              y = round(random.random(), 3)
-              philLights(light, 'state', xy=[x, y], bri=254,
-                      transitiontime=100)
-        else:
-            SetAmbientColor(philLights)
+def SetLightMode(hueLights, mode):
+  if mode == 'Ambient':
+    if MULTICOLOR:
+      SetAmbientMultiColor(hueLights)
     else:
-        SetGVCColor(philLights)
+      SetAmbientColor(hueLights)
+  else:
+    SetGVCColor(hueLights)
 
 def GetCalendarEvents(service):
   now = datetime.datetime.utcnow().isoformat() + 'Z' # 'Z' indicates UTC time
@@ -180,18 +182,18 @@ def main():
   # https://github.com/quentinsf/qhue
   # Initialize Philips Hue Bridge
   bridge = Bridge(BRIDGE_IP, BRIDGE_USERNAME)
-  lights = bridge.lights
+  hueLights = bridge.lights
   
   now_time = datetime.datetime.now().time()
   
   if now_time < WORK_DAY_END:
-    TurnOnLights(lights)
+    TurnOnLights(hueLights)
   
   while now_time < WORK_DAY_END:
     
     # Identify if there is a GVC coming up or not
     mode = GetCalendarEvents(service)
-    SetLightMode(lights, mode)
+    SetLightMode(hueLights, mode)
 
     if LOGGING:
       print('Sleeping for {} seconds \n'.format(LIGHT_CHANGE_INTERVAL_SEC))
@@ -199,7 +201,7 @@ def main():
     now_time = datetime.datetime.now().time()
 
   print('You are done working, now go play!')
-  TurnOffLights(lights)
+  TurnOffLights(hueLights)
 
 
 if __name__ == '__main__':
