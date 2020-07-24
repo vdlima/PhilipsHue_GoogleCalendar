@@ -23,6 +23,7 @@ LOGGING = True
 BRIDGE_IP = '1.1.1.1'  # Update with your Bridge's IP address
 BRIDGE_USERNAME = 'username'  # Update with your Bridge's username
 LIGHTS = [1, 2] # Update with your light's IDs
+MULTICOLOR = True # Set to false if you want one color ambient.
 
 # How often to update the lights
 LIGHT_CHANGE_INTERVAL_MIN = 4
@@ -70,6 +71,18 @@ def SetGVCColor(lights):
           for light in LIGHTS]
   return
 
+def SetLightMode(philLights, mode):
+    if mode == 'Ambient':
+        if MULTICOLOR:
+            for light in LIGHTS:
+              x = round(random.random(), 3)
+              y = round(random.random(), 3)
+              philLights(light, 'state', xy=[x, y], bri=254,
+                      transitiontime=100)
+        else:
+            SetAmbientColor(philLights)
+    else:
+        SetGVCColor(philLights)
 
 def GetCalendarEvents(service):
   now = datetime.datetime.utcnow().isoformat() + 'Z' # 'Z' indicates UTC time
@@ -177,13 +190,8 @@ def main():
   while now_time < WORK_DAY_END:
     
     # Identify if there is a GVC coming up or not
-    event_type = GetCalendarEvents(service)
-  
-    if event_type == 'GVC':
-      SetGVCColor(lights)
-
-    elif event_type == 'Ambient':
-      SetAmbientColor(lights)
+    mode = GetCalendarEvents(service)
+    SetLightMode(lights, mode)
 
     if LOGGING:
       print('Sleeping for {} seconds \n'.format(LIGHT_CHANGE_INTERVAL_SEC))
