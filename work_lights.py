@@ -19,7 +19,7 @@ WORK_DAY_END = datetime.time(16, 30, 00)
 # Allow printing to STDOUT
 LOGGING = True
 
-# Philips Hue Bridge details
+# You can override these in config.yaml
 BRIDGE_IP = '1.1.1.1'  # Update with your Bridge's IP address
 BRIDGE_USERNAME = 'username'  # Update with your Bridge's username
 LIGHTS = [1, 2] # Update with your light's IDs
@@ -39,6 +39,8 @@ with open('config.yaml') as config_file:
         BRIDGE_IP = config['BRIDGE_IP']
     if 'BRIDGE_USERNAME' in config:
         BRIDGE_USERNAME = config['BRIDGE_USERNAME']
+    if 'LIGHTS' in config:
+        LIGHTS = [int(l) for l in config['LIGHTS']]
 
 SCOPES = ['https://www.googleapis.com/auth/calendar.readonly']
 
