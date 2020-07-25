@@ -41,6 +41,8 @@ with open('config.yaml') as config_file:
         BRIDGE_USERNAME = config['BRIDGE_USERNAME']
     if 'LIGHTS' in config:
         LIGHTS = [int(l) for l in config['LIGHTS']]
+    if 'MULTICOLOR' in config:
+        MULTICOLOR = config['MULTICOLOR']
 
 SCOPES = ['https://www.googleapis.com/auth/calendar.readonly']
 
