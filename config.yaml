@@ -1,12 +1,13 @@
 # Update with your Bridge's IP address
-BRIDGE_IP: '0.0.0.0'  
+BRIDGE_IP: '0.0.0.0'
 
 # Update with your Bridge's username
-BRIDGE_USERNAME: 'username' 
+BRIDGE_USERNAME: 'username'
 
 # Update with your light IDs
 LIGHTS:
   - 1
   - 2
-        
 
+# If you want your lights to be different colors, set to True
+MULTICOLOR: true
