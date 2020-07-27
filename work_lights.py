@@ -70,11 +70,17 @@ def SetAmbientColor(hueLights):
   return
 
 def SetAmbientMultiColor(hueLights):
+ hue = int(random.random() * 65535)
+ # complementary colors are opposites, but if you have n lights
+ # this will distribute around the color wheel.
+ inc = int(65535 / len(LIGHTS))
+
  for light in LIGHTS:
-              x = round(random.random(), 3)
-              y = round(random.random(), 3)
-              hueLights(light, 'state', xy=[x, y], bri=254,
-                         transitiontime=100)
+   if LOGGING:
+       print('hue={}'.format(hue))
+   hueLights(light, 'state', hue=hue, sat=254, bri=254,
+             transitiontime=100)
+   hue = (hue + inc) % 65535
 
 def SetGVCColor(hueLights):
   [hueLights(light, 'state', xy=[0.300, 0.300], bri=254)
