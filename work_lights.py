@@ -116,12 +116,17 @@ def GetCalendarEvents(service):
       print('No upcoming events found.')
 
   for event in events:
-    event_start_datetime_str = event['start']['dateTime']
-    event_start_date_obj = datetime.datetime.strptime(
-        event_start_datetime_str[:19], '%Y-%m-%dT%H:%M:%S')
-    event_end_datetime_str = event['end']['dateTime']
-    event_end_date_obj = datetime.datetime.strptime(
-        event_end_datetime_str[:19], '%Y-%m-%dT%H:%M:%S')
+    if 'dateTime' in event['start']:
+      event_start_datetime_str = event['start']['dateTime']
+      event_start_date_obj = datetime.datetime.strptime(
+          event_start_datetime_str[:19], '%Y-%m-%dT%H:%M:%S')
+      event_end_datetime_str = event['end']['dateTime']
+      event_end_date_obj = datetime.datetime.strptime(
+          event_end_datetime_str[:19], '%Y-%m-%dT%H:%M:%S')
+    else:
+      if LOGGING:
+        print('Whole day event')
+      continue
     attendees = event.get('attendees')
     
     # Only want events that have reminders set
