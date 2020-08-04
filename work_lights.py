@@ -102,7 +102,7 @@ def GetCalendarEvents(service):
     print('Getting events...')
   try:
     events_result = service.events().list(calendarId='primary', timeMin=now,
-                                          maxResults=3, singleEvents=True,
+                                          maxResults=10, singleEvents=True,
                                           orderBy='startTime').execute()
   except ConnectionResetError as err:
     print('Caught ConnectionResetError!')
