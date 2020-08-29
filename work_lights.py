@@ -125,7 +125,7 @@ def GetCalendarEvents(service):
           event_end_datetime_str[:19], '%Y-%m-%dT%H:%M:%S')
     else:
       if LOGGING:
-        print('Whole day event')
+        print('Whole day event: {}'.format(event['summary']))
       continue
     attendees = event.get('attendees')
     
