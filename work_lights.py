@@ -97,7 +97,7 @@ def SetLightMode(hueLights, mode):
     SetGVCColor(hueLights)
 
 def GetCalendarEvents(service):
-  now = datetime.datetime.utcnow().isoformat() + 'Z' # 'Z' indicates UTC time
+  now = datetime.datetime.now(datetime.UTC).isoformat()
   if LOGGING:
     print('Getting events...')
   try:
